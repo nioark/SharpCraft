@@ -1,2 +1,4 @@
 .OLDCODE
 .vscode
+bin
+obj

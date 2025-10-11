@@ -20,7 +20,7 @@ public class Generation{
         landScape.gen3dNoise(ref voxelMap, ref heightMap, chunkX, chunkY);
 
         #endregion
-     
+
         return Tuple.Create(voxelMap,heightMap);
     }
 
@@ -31,14 +31,14 @@ public class Generation{
         biomeScape.genSurfaceMaterial(ref voxelMap, ref heightMap, chunkX, chunkY);
 
         #endregion
-        
+
         #region BIOME_TREES
 
-        biomeScape.genSurfaceTree(ref voxelMap, ref heightMap, chunkX, chunkY);
+        // biomeScape.genSurfaceTree(ref voxelMap, ref heightMap, chunkX, chunkY);
 
         #endregion
     }
-}   
+}
 
 public static class GenUtil{
     private static int CHUNK_1D_SIZE = World.CHUNK_SIZE * World.CHUNK_HEIGHT;

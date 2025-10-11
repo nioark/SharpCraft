@@ -4,13 +4,13 @@ class LandScape{
 
     #region GENERATION_SETTINGS
     static double lacunarity = 5.0; //Control increase in frequency of octaves
-    static double persistance = 4.2; //Control decrease in amplitude of octaves
+    static double persistance = 1.2; //Control decrease in amplitude of octaves
     //NOT SETTED YET
     int octaves = 4;
 
     int landspace_height = 120;
 
-    int landscape_scale = 1;
+    int landscape_scale = 8;
     #endregion
 
     #region Continentalness
@@ -24,7 +24,7 @@ class LandScape{
     //float[] Xs = new float[2]{-1.0f, 1.0f};
     //float[] Ys = new float[2]{50.0f, 150.0f};
 
-    
+
     float[] XsD = new float[6]{-1f, -0.7f, -0.5f, 0.0f, 0.3f, 1f};
     float[] YsD = new float[6]{0.0080f, 0.0080f, 0.0080f, 0.0065f, 0.300f, 0.450f};
     #endregion
@@ -33,7 +33,7 @@ class LandScape{
     public LandScape(FastNoise noise){
         Noise = noise;
     }
-   
+
 
     float noise_avg = 0;
     float max_noise = -1000f;
@@ -71,7 +71,7 @@ class LandScape{
 
         for (int x = 0; x < World.CHUNK_SIZE; x++)
             for (int z = 0; z < World.CHUNK_SIZE; z++){
-                
+
                 int height = getTerrainHeight(x + (xChunk * World.CHUNK_SIZE),z + (yChunk * World.CHUNK_SIZE));
                 heightMap[x,z] = (byte)height;
 
@@ -84,46 +84,45 @@ class LandScape{
                     voxelMap[GenUtil.to1D(x,y,z)] = 6;
                 } //Fills out of stone
 
-                
+
             }
         //Console.WriteLine("Max_H: " + max_noise + " Min_H: " +  min_noise + " Avg_H: " + noise_avg / (float)(World.CHUNK_SIZE * World.CHUNK_HEIGHT));
     }
 
-    
+
     public void gen3dNoise(ref byte[] voxelMap, ref byte[,] heightMap, int xChunk, int yChunk){
          for (int x = 0; x < World.CHUNK_SIZE; x++)
             for (int z = 0; z < World.CHUNK_SIZE; z++){
 
                 int level = 60;
                 for (int y = level; y < World.CHUNK_HEIGHT; y++){
-                
+
                     //float n = GenUtil.Lerp(XsD, YsD, y);
-                    float f = 3f;
-                    float amp = 1.3f;
+                    float f = 2.1f;
 
                     //float squashing = 0.500f;
                     int xWorld = x + (xChunk * World.CHUNK_SIZE);
                     int zWorld = z + (yChunk * World.CHUNK_SIZE);
 
-                    float squashing = GenUtil.Lerp(-1f, 1f, 0.0003f, 0.240f, World.fastNoise.GetPerlin(xWorld * 0.15f,zWorld * 0.15f) * 1.5f);
+                    float squashing = GenUtil.Lerp(-1f, 1f, 0.005f, 0.025f, World.fastNoise.GetPerlin(xWorld * 0.08f,zWorld * 0.08f) * 2.8f);
 
                     float density = World.fastNoise.GetPerlin(xWorld * f,y * f, zWorld * f) + (y - level) * squashing;
 
-                    if (density < 0.80f){
+                    if (density < 0.60f){
                         if (heightMap[x,z] < (byte)y)
                             heightMap[x,z] = (byte)y;
-                            
+
                         voxelMap[GenUtil.to1D(x,y,z)] = 6;
                         //voxelMap[GenUtil.to1D(x,y,z)] = 1;
                         //voxelMap[GenUtil.to1D(x,y - 1,z)] = 2;
                         //voxelMap[GenUtil.to1D(x,y - 2,z)] = 2;
                         //voxelMap[GenUtil.to1D(x,y - 3,z)] = 6;
                     }
-                        
-                    
+
+
                 }
             }
-            
+
     }
 
 

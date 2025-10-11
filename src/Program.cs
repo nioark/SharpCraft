@@ -24,7 +24,7 @@ class Program
         var nativeWindowSettings = new NativeWindowSettings()
         {
             Size = new Vector2i(1200, 720),
-            Title = "Hello Triangle!",
+            Title = "SharpCraft",
             // This is needed to run on macos
             Flags = ContextFlags.ForwardCompatible,
         };
