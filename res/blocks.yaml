@@ -1,0 +1,43 @@
+blocks:
+  grass:
+    id: 1
+    block_name: Grass
+    all_sides_texture: sidegrass
+    top_texture: grass
+    bottom_texture: dirt
+
+  dirt:
+    id: 2
+    block_name: dirt
+    all_sides_texture: dirt
+
+  stone:
+    id: 3
+    block_name: Stone
+    all_sides_texture: stone
+
+  sand:
+    id: 4
+    block_name: Sand
+    all_sides_texture: sand
+
+  savana:
+    id: 5
+    block_name: Savana
+    all_sides_texture: grass_top
+
+  roughstone:
+    id: 6
+    block_name: Rough Stone
+    all_sides_texture: roughstone
+
+  woodbark:
+    id: 7
+    block_name: Wood Block
+    all_sides_texture: woodbark
+
+  leaves:
+    id: 8
+    block_name: Leaves
+    all_sides_texture: leaves
+

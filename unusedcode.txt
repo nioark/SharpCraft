@@ -1,0 +1,35 @@
+   // Dictionary<int, bool> passed = new Dictionary<int, bool>();
+
+
+        /*for (int y = 0; y < World.CHUNK_HEIGHT; y++){
+            if (shouldPass(y)){
+                passed.TryAdd(y, true);
+                passLayer(y);
+            }
+        }
+
+
+        foreach  (KeyValuePair<int, bool> entry in passed){
+            bool bottom, top;
+            int bottomY = entry.Key - 1;
+            int topY = entry.Key + 1;
+            passed.TryGetValue(bottomY, out bottom);
+            passed.TryGetValue(topY, out top);
+
+            if (!bottom){
+            
+                if (bottomY != -1){
+                    passLayer(bottomY);
+                }
+                    
+            }
+                
+
+            if (!top){
+                if (topY != 256){
+                    passLayer(topY);
+                }
+                    
+            }
+                
+        }*/
