@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SharpCraft")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b5e95f67bac61b3b99c76f6dc8bba5c02ab5ed1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9df1e0fd6cd587669bf2e045d5a8e23c59dbc584")]
 [assembly: System.Reflection.AssemblyProductAttribute("SharpCraft")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SharpCraft")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
