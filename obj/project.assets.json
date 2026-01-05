@@ -5168,7 +5168,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net6.0": {
@@ -5207,7 +5207,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -5216,7 +5216,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-2cmq-823j-5qj8",
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-2cmq-823j-5qj8",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net6.0"
@@ -5226,7 +5226,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-5x7m-6737-26cr",
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5x7m-6737-26cr",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net6.0"
@@ -5236,7 +5236,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-63p8-c4ww-9cg7",
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-63p8-c4ww-9cg7",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net6.0"
@@ -5246,7 +5246,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-65x7-c272-7g7r",
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-65x7-c272-7g7r",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net6.0"
@@ -5256,7 +5256,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-g85r-6x2q-45w7",
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-g85r-6x2q-45w7",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net6.0"
@@ -5266,7 +5266,17 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 2.1.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-qxrv-gp6x-rc23",
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-qxrv-gp6x-rc23",
+      "libraryId": "SixLabors.ImageSharp",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "O pacote 'SixLabors.ImageSharp' 2.1.0 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-rxmq-m78w-7wmc",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net6.0"

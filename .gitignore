@@ -2,3 +2,7 @@
 .vscode
 bin
 obj
+/bin
+obj/Debug/net6.0/refint/SharpCraft.dll
+/obj
+/bin

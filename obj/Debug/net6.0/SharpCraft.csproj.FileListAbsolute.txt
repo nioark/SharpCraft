@@ -126,3 +126,4 @@ C:\Users\niooc\Área de Trabalho\Projetos\SharpCraft\bin\Debug\net6.0\runtimes\w
 C:\Users\niooc\Área de Trabalho\Projetos\SharpCraft\obj\Debug\net6.0\SharpCraft.genruntimeconfig.cache
 C:\Users\niooc\Área de Trabalho\Projetos\SharpCraft\obj\Debug\net6.0\ref\SharpCraft.dll
 C:\Users\niooc\Área de Trabalho\Projetos\SharpCraft\obj\Debug\net6.0\SharpCraft.csproj.Up2Date
+C:\Users\niooc\Área de Trabalho\Projetos\SharpCraft\obj\Debug\net6.0\SharpCraft.sourcelink.json
