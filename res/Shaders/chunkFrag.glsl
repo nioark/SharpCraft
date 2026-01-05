@@ -10,7 +10,6 @@ uniform sampler2D ourTexture;
 
 
 void main()
-{   
-    
-    result = texture(ourTexture, TexCoord);// * vec4(outLight,outLight,outLight,0.2);
-} 
+{
+    result = texture(ourTexture, TexCoord) * vec4(outLight, outLight, outLight, 1.0);
+}

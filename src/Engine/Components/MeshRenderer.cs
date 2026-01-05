@@ -35,28 +35,14 @@ class MeshRenderer{
         GL.BufferData<float>(BufferTarget.ArrayBuffer, sizeof(float) * meshDataCount, meshData.ToArray(), BufferUsageHint.StaticDraw);
 
         
-        // v, v, v, uv, uv
+        // v, v, v, uv, uv, l
 
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
         GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
         GL.EnableVertexAttribArray(1);
-
-        //Alternative
-
-        /* // v, v, v, uv, uv, l
-
-        var vertexLocation = GL.GetAttribLocation(shader.GetId(), "pos");
-        GL.EnableVertexAttribArray(vertexLocation);
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), IntPtr.Zero);
-        
-        var textureLocation = GL.GetAttribLocation(shader.GetId(), "aTexCoord");
-        GL.EnableVertexAttribArray(textureLocation);
-        GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 6 * sizeof(float), (IntPtr)(void*)(3 * sizeof(float)));
-        
-        var lightLocation = GL.GetAttribLocation(shader.GetId(), "light");
-        GL.EnableVertexAttribArray(textureLocation);
-        GL.VertexAttribPointer(2, 1, VertexAttribPointerType.Float, false, 6 * sizeof(float), (IntPtr)(void*)(5 * sizeof(float)));*/
+        GL.VertexAttribPointer(2, 1, VertexAttribPointerType.Float, false, 6 * sizeof(float), 5 * sizeof(float));
+        GL.EnableVertexAttribArray(2);
     }
 
     //todo change to drawDynamic and add drawStatic removing attribut set at static 
