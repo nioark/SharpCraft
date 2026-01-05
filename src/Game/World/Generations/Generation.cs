@@ -34,7 +34,7 @@ public class Generation{
 
         #region BIOME_TREES
 
-        // biomeScape.genSurfaceTree(ref voxelMap, ref heightMap, chunkX, chunkY);
+        biomeScape.genSurfaceTree(ref voxelMap, ref heightMap, chunkX, chunkY);
 
         #endregion
     }

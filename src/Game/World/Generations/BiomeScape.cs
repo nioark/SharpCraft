@@ -79,56 +79,106 @@ class BiomeScape
         return Biomes.Stone;
     }
 
-    Vector2 lastPos = new Vector2(0, 0);
-    public void genSurfaceTree(ref byte[] voxelMap, ref byte[,] heightMap, int xChunk, int yChunk)
+    private Vector2 lastTreePos = new Vector2(float.MinValue, float.MinValue);
+    private const float MIN_TREE_SPACING = 8.0f;
+    private TreeGenerator? treeGenerator;
+
+    public void genSurfaceTree(ref byte[] voxelMap, ref byte[,] heightMap, int xChunk, int zChunk)
     {
+        // Initialize tree generator if needed
+        if (treeGenerator == null)
+        {
+            treeGenerator = new TreeGenerator(world, _mainNoise.GetSeed());
+        }
+
         for (int x = 0; x < World.CHUNK_SIZE; x++)
+        {
             for (int z = 0; z < World.CHUNK_SIZE; z++)
             {
-                int xWorld = x + (Math.Abs(xChunk) * World.CHUNK_SIZE);
-                int zWorld = z + (Math.Abs(yChunk) * World.CHUNK_SIZE);
-
-                if (xChunk < 0)
-                    xWorld *= -1;
-
-                if (yChunk < 0)
-                    zWorld *= -1;
+                int xWorld = x + (xChunk * World.CHUNK_SIZE);
+                int zWorld = z + (zChunk * World.CHUNK_SIZE);
 
                 int height = heightMap[x, z];
 
-                float freq = 1.5f;
-                float chance = random.Next(0, 100);
-                if (chance == 5)
-                {
+                // Get biome for this position
+                Biomes biome = getBiome(xWorld, zWorld);
 
-                    if (Vector2.Distance(new Vector2(xWorld, zWorld), lastPos) > 20)
-                    {
-                        lastPos = new Vector2(xWorld, zWorld);
+                // Check if this biome supports trees
+                TreeGenerator.TreeType? treeType = GetTreeTypeForBiome(biome);
+                if (treeType == null)
+                    continue;
 
+                // Get spawn chance for this biome
+                float spawnChance = GetTreeChance(biome);
+                if (random.NextDouble() > spawnChance)
+                    continue;
 
-                        int tree_maxheight = random.Next(5, 7);
-                        int tree_height = 0;
-                        for (int iX = -2; iX < 3; iX++)
-                            for (int iY = -2; iY < 1; iY++)
-                                for (int iZ = -2; iZ < 3; iZ++)
-                                {
-                                    world.SetBlock(xWorld + iX, height + tree_maxheight + iY, zWorld + iZ, 8);
-                                }
+                // Check minimum spacing from other trees
+                if (TooCloseToExistingTree(xWorld, zWorld))
+                    continue;
 
-                        for (int i = 1; i < tree_maxheight; i++)
-                        {
-                            voxelMap[GenUtil.to1D(x, height + i, z)] = 7;
-                            //Console.WriteLine("Original pos: " + x + " " + z + " || " + xWorld + " " + zWorld + " || " + xChunk + " " + yChunk);
-                            tree_height = i;
-                        }
-
-                        //world.SetBlock(xWorld, tree_height + 1, zWorld, 5);
-                    }
-
-
-                }
-
+                // Generate the tree
+                treeGenerator.GenerateTree(xWorld, height, zWorld, treeType.Value);
             }
+        }
+    }
+
+    /// <summary>
+    /// Determines which tree type spawns in a given biome
+    /// </summary>
+    private TreeGenerator.TreeType? GetTreeTypeForBiome(Biomes biome)
+    {
+        switch (biome)
+        {
+            case Biomes.Forest:
+            case Biomes.RainForest:
+                return TreeGenerator.TreeType.Large;
+
+            case Biomes.SeasonalForest:
+            case Biomes.Taiga:
+            case Biomes.Plains:
+            case Biomes.Swamp:
+            case Biomes.Savanna:
+                return TreeGenerator.TreeType.Small;
+
+            default:
+                return null; // No trees in desert, tundra, shrubland, stone
+        }
+    }
+
+    /// <summary>
+    /// Returns the spawn chance for trees in a given biome (0.0 to 1.0)
+    /// </summary>
+    private float GetTreeChance(Biomes biome)
+    {
+        switch (biome)
+        {
+            case Biomes.RainForest: return 0.12f;
+            case Biomes.Forest: return 0.08f;
+            case Biomes.SeasonalForest: return 0.06f;
+            case Biomes.Taiga: return 0.05f;
+            case Biomes.Swamp: return 0.04f;
+            case Biomes.Savanna: return 0.03f;
+            case Biomes.Plains: return 0.01f;
+            default: return 0f;
+        }
+    }
+
+    /// <summary>
+    /// Checks if a position is too close to an existing tree
+    /// </summary>
+    private bool TooCloseToExistingTree(int xWorld, int zWorld)
+    {
+        float distance = Vector2.Distance(
+            new Vector2(xWorld, zWorld),
+            lastTreePos
+        );
+
+        if (distance < MIN_TREE_SPACING && lastTreePos.X != float.MinValue)
+            return true;
+
+        lastTreePos = new Vector2(xWorld, zWorld);
+        return false;
     }
     public void genSurfaceMaterial(ref byte[] voxelMap, ref byte[,] heightMap, int xChunk, int yChunk)
     {
@@ -141,8 +191,7 @@ class BiomeScape
 
                 int height = heightMap[x, z];
 
-                //Biomes biome = getBiome(xWorld, zWorld);
-                Biomes biome = Biomes.Taiga;
+                Biomes biome = getBiome(xWorld, zWorld);
                 switch (biome)
                 {
                     case Biomes.Desert:
