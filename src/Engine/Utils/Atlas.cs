@@ -6,7 +6,7 @@ using OpenTK.Mathematics;
 class Atlas{
 
     private string file_path;
-    public Dictionary<string, Image> textures_image {get; private set;} = new Dictionary<string, Image>(); 
+    public Dictionary<string, Image<Rgba32>> textures_image {get; private set;} = new Dictionary<string, Image<Rgba32>>();
     private Dictionary<string, ushort> textures_id = new Dictionary<string, ushort>();
 
     private GlTexture atlas_texture;
@@ -20,7 +20,7 @@ class Atlas{
     }
 
     public bool TryAddTexture(string texture_name){
-        Image img;
+        Image<Rgba32> img;
        bool l = textures_image.TryGetValue(texture_name, out img);
         if (texture_name == "null") return false;
         Console.WriteLine("Tried to add " + texture_name + " Size: " + textures_image.Count() + " " + l);
@@ -59,17 +59,17 @@ class Atlas{
 
             // take the 2 source images and draw them onto the image
             outputImage.Mutate(o => {
-                
+
                 int x = 0;
                 int y = atlas_pixel_size - Blocks.TEXTURE_SIZE;
-                foreach (KeyValuePair<string, Image> entry in textures_image){
+                foreach (KeyValuePair<string, Image<Rgba32>> entry in textures_image){
                     //Console.WriteLine(x + " " + y + " max: " +  atlas_pixel_size);
                     if (x > atlas_pixel_size - 1){
                         x = 0;
                         y -= Blocks.TEXTURE_SIZE;
                     }
-                
-                    Image img = entry.Value;
+
+                    Image<Rgba32> img = entry.Value;
                     //Console.WriteLine(x + " " + y + " tried");
                     o.DrawImage(img, new Point(x, y), 1f);
                     x += Blocks.TEXTURE_SIZE;

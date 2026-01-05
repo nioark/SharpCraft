@@ -84,74 +84,66 @@ class Chunk
 
     private void addBlock(int x, int y, int z)
     {
-        //Console.WriteLine( x + " " + y + " " + z );
         ushort id = voxelMap[to1D(x, y, z)];
 
         if (id == 0)
             return;
 
-        for (int i = 0; i < 6; i++)
+        for (int faceIndex = 0; faceIndex < 6; faceIndex++)
         {
-            int xBlock = VoxelData.offsets[i, 0] + x;
-            int yBlock = VoxelData.offsets[i, 1] + y;
-            int zBlock = VoxelData.offsets[i, 2] + z;
+            int neighborX = VoxelData.offsets[faceIndex, 0] + x;
+            int neighborY = VoxelData.offsets[faceIndex, 1] + y;
+            int neighborZ = VoxelData.offsets[faceIndex, 2] + z;
 
-            //RightNeighbor
-            if (xBlock > World.CHUNK_SIZE - 1)
+            if (shouldRenderFace(faceIndex, neighborX, neighborY, neighborZ, x, y, z, id))
             {
-                if (rightNeighbor == null || rightNeighbor.voxelMap[to1D(0, y, z)] == 0)
-                    chunkMesh.addFace(i, x, y, z, id, ref meshData);
-                continue;
+                chunkMesh.addFace(faceIndex, x, y, z, id, ref meshData);
             }
-
-            //LeftNeighbor
-            if (xBlock < 0)
-            {
-                if (leftNeighbor == null || leftNeighbor.voxelMap[to1D(chunkEnd, y, z)] == 0)
-                    chunkMesh.addFace(i, x, y, z, id, ref meshData);
-                continue;
-            }
-
-            //FrontNeighbor
-            if (zBlock > World.CHUNK_SIZE - 1)
-            {
-                if (frontNeighbor == null || frontNeighbor.voxelMap[to1D(x, y, 0)] == 0)
-                    chunkMesh.addFace(i, x, y, z, id, ref meshData);
-                continue;
-            }
-
-            //BackNeighbor
-            if (zBlock < 0)
-            {
-                if (backNeighbor == null || backNeighbor.voxelMap[to1D(x, y, chunkEnd)] == 0)
-                    chunkMesh.addFace(i, x, y, z, id, ref meshData);
-                continue;
-            }
-
-            if (yBlock > World.CHUNK_HEIGHT - 1)
-            {
-                continue;
-            }
-
-            if (xBlock < 0 || yBlock < 0 || zBlock < 0)
-            {
-                continue;
-            }
-
-            if (yBlock < 0)
-            {
-                chunkMesh.addFace(i, x, y, z, id, ref meshData);
-                continue;
-            }
-
-            if (voxelMap[to1D(xBlock, yBlock, zBlock)] == 0)
-            {
-                chunkMesh.addFace(i, x, y, z, id, ref meshData);
-                continue;
-            }
-
-
         }
+    }
+
+    private bool shouldRenderFace(int faceIndex, int neighborX, int neighborY, int neighborZ, int x, int y, int z, ushort blockId)
+    {
+        // Check horizontal neighbors (cross-chunk boundaries)
+        if (neighborX >= World.CHUNK_SIZE)
+            return isBlockTransparent(rightNeighbor, 0, y, z);
+
+        if (neighborX < 0)
+            return isBlockTransparent(leftNeighbor, chunkEnd, y, z);
+
+        if (neighborZ >= World.CHUNK_SIZE)
+            return isBlockTransparent(frontNeighbor, x, y, 0);
+
+        if (neighborZ < 0)
+            return isBlockTransparent(backNeighbor, x, y, chunkEnd);
+
+        // Check vertical boundaries
+        if (neighborY >= World.CHUNK_HEIGHT)
+            return false;
+
+        if (neighborY < 0)
+            return true;
+
+        // Check same-chunk neighbor
+        return isBlockTransparent(this, neighborX, neighborY, neighborZ);
+    }
+
+    private bool isBlockTransparent(Chunk chunk, int x, int y, int z)
+    {
+        if (chunk == null)
+            return true;
+
+        ushort blockId = chunk.voxelMap[to1D(x, y, z)];
+        
+        if (blockId == 0)
+            return true;
+
+        return Blocks.blocks[blockId].Transparent;
+    }
+
+    private bool isNeighborBlockTransparent(Chunk neighbor, int x, int y, int z)
+    {
+        return neighbor == null || neighbor.voxelMap[to1D(x, y, z)] == 0;
     }
 
     public void GenerateMesh()

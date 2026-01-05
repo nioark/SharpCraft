@@ -71,7 +71,7 @@ public class World
                 Chunk chunk = new Chunk(chunkPos, shader, ref generation);
                 chunks.TryAdd(chunkPos, chunk);
                 chunk.GenerateLandScape();
-                chunk.GeneratePostScape();  
+                chunk.GeneratePostScape();
             }
 
         for (int x = 0; x < size; x++)
@@ -82,7 +82,7 @@ public class World
                 chunk.backNeighbor  = y != 0  ? chunks[new Vector2(x,y - 1)] : null;
                 chunk.leftNeighbor  = x != 0  ? chunks[new Vector2(x - 1,y)] : null;
                 chunk.rightNeighbor = x != size - 1  ? chunks[new Vector2(x + 1,y)] : null;
-                chunk.GenerateMesh(); 
+                chunk.GenerateMesh();
                 chunksAddMesh.Add(chunk);
             }
 
@@ -249,10 +249,10 @@ public class World
 
             ch.setVoxelMapBlock(x, yWorld, z, id);
         }
-        else
-        {
-            Console.WriteLine("Couldnt set block in " + xChunk + " " + zChunk + " || " + xWorld + " " + yWorld + " " + zWorld);
-        }
+        // else
+        // {
+        //     Console.WriteLine("Couldnt set block in " + xChunk + " " + zChunk + " || " + xWorld + " " + yWorld + " " + zWorld);
+        // }
 
 
     }

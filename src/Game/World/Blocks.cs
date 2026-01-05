@@ -96,7 +96,8 @@ static class Blocks {
             }
 
          
-            Block block = new Block(dataBlock.block_name, (ushort)dataBlock.id, textureIds, texturesName);
+            bool isTransparent = dataBlock.transparent;
+            Block block = new Block(dataBlock.block_name, (ushort)dataBlock.id, textureIds, texturesName, isTransparent);
             blocks.Add(block.ID,block);
             #endregion
         }

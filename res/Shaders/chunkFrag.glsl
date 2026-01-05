@@ -11,5 +11,7 @@ uniform sampler2D ourTexture;
 
 void main()
 {
-    result = texture(ourTexture, TexCoord) * vec4(outLight, outLight, outLight, 1.0);
+    vec4 texColor = texture(ourTexture, TexCoord);
+    if (texColor.a < 0.95) discard;
+    result = texColor * vec4(outLight, outLight, outLight, 1.0);
 }

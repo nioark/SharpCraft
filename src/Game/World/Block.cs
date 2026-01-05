@@ -28,6 +28,7 @@ class YamlBlock {
     public string? back_texture;
     public string? left_texture;
     public string? right_texture;
+    public bool transparent;
 }
 
 public class Block {
@@ -35,16 +36,18 @@ public class Block {
     public string BlockName {get; private set;}
     public string[] TexturesName  {get; private set;} = new string[6];
     public ushort[] TexturesIds  {get; private set;} = new ushort[6];
+    public bool Transparent {get; private set;}
 
     public List<float[,,]> TexturesUVs {get; private set;} = new List<float[,,]>();
     public uint ID {get; private set;}
 
-    public Block(string name, uint id, ushort[] TexturesIds, string[] TexturesName){
+    public Block(string name, uint id, ushort[] TexturesIds, string[] TexturesName, bool transparent = false){
         this.BlockName = name;
         this.ID = id;
         this.TexturesName = TexturesName;
         this.TexturesIds = TexturesIds;
         this.TexturesUVs = TexturesUVs;
+        this.Transparent = transparent;
     }
 
     public void setUvs(List<float[,,]>  TexturesUVs){

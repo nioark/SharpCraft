@@ -40,4 +40,5 @@ blocks:
     id: 8
     block_name: Leaves
     all_sides_texture: leaves
+    transparent: true
 
