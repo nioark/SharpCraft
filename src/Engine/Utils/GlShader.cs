@@ -163,15 +163,10 @@ public class GlShader
     /// </summary>
     /// <param name="name">The name of the uniform</param>
     /// <param name="data">The data to set</param>
-    /// <remarks>
-    ///   <para>
-    ///   The matrix is transposed before being sent to the shader.
-    ///   </para>
-    /// </remarks>
     public void SetMatrix4(string name, Matrix4 data)
     {
         GL.UseProgram(Handle);
-        GL.UniformMatrix4(_uniformLocations[name], true, ref data);
+        GL.UniformMatrix4(_uniformLocations[name], false, ref data);
     }
 
     /// <summary>

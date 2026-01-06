@@ -13,7 +13,7 @@ out float outLight;
 
 void main()
 {
-    gl_Position = vec4(pos, 1.0) * model * view * projection;
+    gl_Position = projection * view * model * vec4(pos, 1.0);
     TexCoord = vec3(aTexCoord, textureLayer);
     outLight = light;
 }
