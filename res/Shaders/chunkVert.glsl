@@ -7,7 +7,7 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-out vec2 TexCoord;
+out highp vec2 TexCoord;
 out float outLight;
 
 void main()
