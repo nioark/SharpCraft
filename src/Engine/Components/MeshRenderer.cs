@@ -10,42 +10,49 @@ class MeshRenderer{
     Matrix4 modelMatrix;
 
     GlShader shader;
-    
+
 
     public MeshRenderer(Vector3 position, GlShader shader){
                 //Get shader make for this class in specific
         this.shader = shader;
-        
+
         modelMatrix = Matrix4.CreateTranslation(position);
     }
     public unsafe void UploadMeshGPU(ref List<float> meshData){
-        
+
         GL.CreateVertexArrays(1, out this.vao);
 
         GL.BindVertexArray(vao);
-        
+
 
         this.meshDataCount = meshData.Count();
-        // Each vertex: v,v,v, uv,uv, l = 6 floats
-        this.meshDataTris = meshDataCount / 6;
+        // Each vertex: v,v,v, uv,uv, layer, l = 7 floats
+        this.meshDataTris = meshDataCount / 7;
 
 
         GL.CreateBuffers(1, out vbo);
         GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
         GL.BufferData<float>(BufferTarget.ArrayBuffer, sizeof(float) * meshDataCount, meshData.ToArray(), BufferUsageHint.StaticDraw);
 
-        
-        // v, v, v, uv, uv, l
 
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+        // v,v,v at offset 0
+        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
-        GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+
+        // uv,uv at offset 3 floats
+        GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
         GL.EnableVertexAttribArray(1);
-        GL.VertexAttribPointer(2, 1, VertexAttribPointerType.Float, false, 6 * sizeof(float), 5 * sizeof(float));
+
+        // textureLayer at offset 5 floats
+        GL.VertexAttribPointer(2, 1, VertexAttribPointerType.Float, false, 7 * sizeof(float), 5 * sizeof(float));
         GL.EnableVertexAttribArray(2);
+
+        // light at offset 6 floats
+        GL.VertexAttribPointer(3, 1, VertexAttribPointerType.Float, false, 7 * sizeof(float), 6 * sizeof(float));
+        GL.EnableVertexAttribArray(3);
     }
 
-    //todo change to drawDynamic and add drawStatic removing attribut set at static 
+    //todo change to drawDynamic and add drawStatic removing attribut set at static
     public void draw(){
         shader.Use();
         GL.BindVertexArray(vao);
@@ -54,8 +61,8 @@ class MeshRenderer{
 
         shader.SetMatrix4("model", modelMatrix);
 
-        GL.BindTexture(TextureTarget.Texture2D, ChunkTexture.id);
-    
+        GL.BindTexture(TextureTarget.Texture2DArray, ChunkTexture.id);
+
          //TODO meshDataCount, wrong count peformance loss
         //GL.Color3(155,100,5);
         GL.DrawArrays(PrimitiveType.Triangles, 0, meshDataTris);
@@ -68,7 +75,7 @@ class MeshRenderer{
         unsafe{
             GL.BufferData(BufferTarget.ArrayBuffer, meshDataTris, (IntPtr)null, BufferUsageHint.StaticDraw);
         }
-        
+
 
         GL.DeleteBuffer(vbo);
         GL.DeleteVertexArray(vao);

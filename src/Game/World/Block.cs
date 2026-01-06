@@ -35,34 +35,25 @@ public class Block {
 
     public string BlockName {get; private set;}
     public string[] TexturesName  {get; private set;} = new string[6];
-    public ushort[] TexturesIds  {get; private set;} = new ushort[6];
+    public ushort[] TexturesLayers  {get; private set;} = new ushort[6];
     public bool Transparent {get; private set;}
-
-    public List<float[,,]> TexturesUVs {get; private set;} = new List<float[,,]>();
     public uint ID {get; private set;}
 
-    public Block(string name, uint id, ushort[] TexturesIds, string[] TexturesName, bool transparent = false){
+    public Block(string name, uint id, ushort[] texturesLayers, string[] texturesName, bool transparent = false){
         this.BlockName = name;
         this.ID = id;
-        this.TexturesName = TexturesName;
-        this.TexturesIds = TexturesIds;
-        this.TexturesUVs = TexturesUVs;
+        this.TexturesName = texturesName;
+        this.TexturesLayers = texturesLayers;
         this.Transparent = transparent;
     }
 
-    public void setUvs(List<float[,,]>  TexturesUVs){
-        this.TexturesUVs = TexturesUVs;
-    }
-    
     public string GetTextureName(Faces face){
         return TexturesName[((ushort)face)];
     }
 
-    public ushort GetTextureIds(Faces face){
-        return TexturesIds[((ushort)face)];
+    public ushort GetTextureLayer(Faces face){
+        return TexturesLayers[((ushort)face)];
     }
 
 
 }
-
-

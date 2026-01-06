@@ -24,9 +24,6 @@ static class Blocks {
         .Build();
 
         dynamic data = deserializer.Deserialize<YamlBlocks>(File.ReadAllText("res/blocks.yaml"));
-        //Console.WriteLine(blocks.blocks["stone"].block_name);
-
-        //Get data from
 
         Dictionary<int, bool> id_exists = new Dictionary<int, bool>();
 
@@ -61,10 +58,6 @@ static class Blocks {
 
             }
 
-            //Debug all faces
-            //foreach(Faces face in Enum.GetValues(typeof(Faces)))
-                //Console.WriteLine(face.ToString() + ": "  + texturesName[(int)face]);
-
             #endregion
 
             #region ERROR_CHECKING
@@ -81,51 +74,25 @@ static class Blocks {
 
             #region FINAL
 
-            ushort[] textureIds = new ushort[6];
+            ushort[] textureLayers = new ushort[6];
 
             for (int i = 0; i < 6; i++){
-                Console.WriteLine(texturesName[i]);
-                atlas.TryAddTexture(texturesName[i]);
-                textureIds[i] = atlas.getTextureId(texturesName[i]);
-                Console.WriteLine(textureIds[i] + " texture_id down");
-
+                textureLayers[i] = atlas.TryAddTexture(texturesName[i]);
             }
-
-            for (int i = 0; i < 6; i++){
-                Console.Write(", " + textureIds[i]);
-            }
-
 
             bool isTransparent = dataBlock.transparent;
-            Block block = new Block(dataBlock.block_name, (ushort)dataBlock.id, textureIds, texturesName, isTransparent);
+            Block block = new Block(dataBlock.block_name, (ushort)dataBlock.id, textureLayers, texturesName, isTransparent);
             blocks.Add(block.ID,block);
             #endregion
         }
+
         #region TEXTURE_GENERATION
 
-        atlas.generateAtlas();
+        // Create texture array from individual textures
+        TextureArray textureArray = new TextureArray(atlas.GetTextureLayers());
+        ChunkTexture.Initialize(textureArray);
 
-        // Initialize ChunkTexture with pre-generated atlas mipmaps
-        ChunkTexture.Initialize(atlas.GetAtlasMipmaps());
-
-        Console.WriteLine(blocks.Count());
-
-       foreach (var entry in blocks)
-       {
-            Block block = entry.Value;
-            int face = 0;
-            foreach (ushort textureId in block.TexturesIds){
-                //Console.WriteLine(textureId + " Texture id " + blocks[i].BlockName);
-                float[,,] uvs = atlas.generateUVs(textureId,(Faces)face);
-                //Console.WriteLine(uvs.Length);
-                block.TexturesUVs.Add(uvs);
-                face++;
-            }
-        }
-
-        blocks.Add(0, null); //just to fill space of air block ID = 0
-
-        Console.WriteLine("Blocks initialized " + blocks.Count() + " total blocks");
+        Console.WriteLine($"Blocks initialized: {blocks.Count()} total blocks");
 
         #endregion
 

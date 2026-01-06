@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 static class ChunkTexture{
 
-    static public GlTexture glTexture { get; private set; }
-    static public int id { get; private set; }
+    static public TextureArray textureArray { get; private set; }
+    static public int id => textureArray?.TextureID ?? 0;
 
-    // Initialize with pre-generated atlas mipmaps
-    static public void Initialize(List<Image<Rgba32>> atlasMipmaps){
-        glTexture = new GlTexture(atlasMipmaps);
-        id = glTexture.texture_id;
+    // Initialize with texture array
+    static public void Initialize(TextureArray texArray){
+        textureArray = texArray;
     }
 }
