@@ -26,8 +26,8 @@ class MeshRenderer{
         
 
         this.meshDataCount = meshData.Count();
-        // Each triangle size
-        this.meshDataTris = meshDataCount / 5;
+        // Each vertex: v,v,v, uv,uv, l = 6 floats
+        this.meshDataTris = meshDataCount / 6;
 
 
         GL.CreateBuffers(1, out vbo);

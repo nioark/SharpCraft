@@ -4,6 +4,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using System.Reflection;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Collections.Generic;
 
 class YamlBlocks {
     public Dictionary<String, YamlBlock>? blocks;
@@ -25,10 +26,10 @@ static class Blocks {
         dynamic data = deserializer.Deserialize<YamlBlocks>(File.ReadAllText("res/blocks.yaml"));
         //Console.WriteLine(blocks.blocks["stone"].block_name);
 
-        //Get data from 
+        //Get data from
 
         Dictionary<int, bool> id_exists = new Dictionary<int, bool>();
-        
+
         Atlas atlas = new Atlas("res/textures/blocks/");
 
         foreach (KeyValuePair<string, YamlBlock> entry in data.blocks){
@@ -43,7 +44,7 @@ static class Blocks {
             if (dataBlock.all_sides_texture != null){
                 for (int i = 0; i < 6; i++)
                     texturesName[i] = dataBlock.all_sides_texture;
-            }   
+            }
 
             //Sets just horizontal faces to be the same texture
             if (dataBlock.horizontal_texture != null){
@@ -88,22 +89,24 @@ static class Blocks {
                 textureIds[i] = atlas.getTextureId(texturesName[i]);
                 Console.WriteLine(textureIds[i] + " texture_id down");
 
-                    
             }
 
             for (int i = 0; i < 6; i++){
                 Console.Write(", " + textureIds[i]);
             }
 
-         
+
             bool isTransparent = dataBlock.transparent;
             Block block = new Block(dataBlock.block_name, (ushort)dataBlock.id, textureIds, texturesName, isTransparent);
             blocks.Add(block.ID,block);
             #endregion
         }
         #region TEXTURE_GENERATION
-        
+
         atlas.generateAtlas();
+
+        // Initialize ChunkTexture with pre-generated atlas mipmaps
+        ChunkTexture.Initialize(atlas.GetAtlasMipmaps());
 
         Console.WriteLine(blocks.Count());
 
@@ -125,7 +128,7 @@ static class Blocks {
         Console.WriteLine("Blocks initialized " + blocks.Count() + " total blocks");
 
         #endregion
-        
+
     }
 
 
